@@ -1,13 +1,13 @@
-package com.qr_generation_utility.demo;
+package com.qr_generation_utility.qr_generation_utility;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class QrGenerationUtilityApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(QrGenerationUtilityApplication.class, args);
 	}
 
 }
