@@ -1,5 +1,8 @@
 package com.cts.dto;
 
-public class QRGenerationRequestDTO {
+import lombok.Data;
 
+@Data
+public class QRGenerationRequestDTO {
+    private String studentId;
 }
