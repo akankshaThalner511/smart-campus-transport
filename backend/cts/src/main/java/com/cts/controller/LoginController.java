@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginController {
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(
+    public ResponseEntity<LoginResponseDTO> login(
             @RequestBody LoginRequestDTO request,
             @RequestHeader("loginType") LoginType loginType) {
 
@@ -25,39 +25,35 @@ public class LoginController {
         String username = request.getUsername();
         String password = request.getPassword();
 
-        // ✅ Dummy Hardcoded Login Testing Logic
+        // ✅ Dummy hardcoded login logic
         if (loginType == LoginType.STUDENT && username.equals("student123") && password.equals("pass123")) {
-            return ResponseEntity.ok(
-                    LoginResponseDTO.builder()
-                            .userId(101L)
-                            .role("STUDENT")
-                            .token("student-token-123")
-                            .build()
-            );
+            LoginResponseDTO response = LoginResponseDTO.builder()
+                    .userId(101L)
+                    .role("STUDENT")
+                    .token("student-token-123")
+                    .build();
+            return ResponseEntity.ok(response);
         }
 
         if (loginType == LoginType.DRIVER && username.equals("driver123") && password.equals("pass123")) {
-            return ResponseEntity.ok(
-                    LoginResponseDTO.builder()
-                            .userId(201L)
-                            .role("DRIVER")
-                            .token("driver-token-123")
-                            .build()
-            );
+            LoginResponseDTO response = LoginResponseDTO.builder()
+                    .userId(201L)
+                    .role("DRIVER")
+                    .token("driver-token-123")
+                    .build();
+            return ResponseEntity.ok(response);
         }
 
         if (loginType == LoginType.ADMIN && username.equals("admin123") && password.equals("pass123")) {
-            return ResponseEntity.ok(
-                    LoginResponseDTO.builder()
-                            .userId(301L)
-                            .role("ADMIN")
-                            .token("admin-token-123")
-                            .build()
-            );
+            LoginResponseDTO response = LoginResponseDTO.builder()
+                    .userId(301L)
+                    .role("ADMIN")
+                    .token("admin-token-123")
+                    .build();
+            return ResponseEntity.ok(response);
         }
 
         // ❌ Invalid login
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("Invalid username / password / login type");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }
