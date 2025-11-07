@@ -1,0 +1,99 @@
+spring:
+  application:
+    name: AccessManagementSystem
+    admin:
+      enabled: false  # Disable Spring Boot Admin to prevent BeanCreationException
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/amsdb
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  jmx:
+    enabled: false  # Disable JMX to avoid admin bean issues
+
+  # -----------------------------------------------------
+  # Redis Configuration (for Refresh Tokens / Caching)
+  # -----------------------------------------------------
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ""   # Leave empty if Redis has no password
+      database: 0    # Default Redis DB
+      timeout: 5000  # Connection timeout in ms
+      connect-timeout: 10000
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 8
+          min-idle: 0
+          max-wait: 100ms
+
+# -----------------------------------------------------
+# Server Configuration
+# -----------------------------------------------------
+server:
+  port: 8080
+  servlet:
+    context-path: /api  # Prefix all endpoints with /api
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# -----------------------------------------------------
+# File and QR Storage Configuration
+# -----------------------------------------------------
+file:
+  upload-dir: uploads/qr/
+  qr-dir: uploads/qr/
+  max-size: 10MB
+
+# -----------------------------------------------------
+# Application Base URL
+# -----------------------------------------------------
+app:
+  base-url: http://localhost:8080/api
+
+# -----------------------------------------------------
+# JWT Configuration
+# -----------------------------------------------------
+jwt:
+  # 64+ byte secret key (HS512 requires minimum 512 bits = 64 bytes)
+  secret: "sT3U6v9xY1aB4dE7gH2jK5mP8qR1sV4yZ7nC0uT3vW6xY9aB2dF5gH8jK1lM4p"
+  expiration-ms: 86400000          # 24 hours
+  refresh-expiration-ms: 604800000 # 7 days
+  redis-prefix: "jwt:refresh:"     # Redis key prefix for refresh tokens
+
+# -----------------------------------------------------
+# Cache Configuration (Optional)
+# -----------------------------------------------------
+cache:
+  type: redis
+  redis:
+    time-to-live: 600000 # 10 minutes cache TTL for non-token data
+
+# -----------------------------------------------------
+# Logging Configuration
+# -----------------------------------------------------
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    com.ams: DEBUG
+  file:
+    name: logs/ams-app.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %highlight(%-5level) [%thread] %cyan(%logger{36}) - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
