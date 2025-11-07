@@ -1,3 +1,6 @@
+server:
+  port: 8090
+
 spring:
   application:
-    name: College Transport System
+    name: College-Transport-System
