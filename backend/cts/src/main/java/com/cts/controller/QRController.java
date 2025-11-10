@@ -1,9 +1,6 @@
 package com.cts.controller;
 
-import com.cts.dto.QRDecodeRequestDTO;
-import com.cts.dto.QRDecodeResponseDTO;
-import com.cts.dto.QRGenerationRequestDTO;
-import com.cts.dto.QRGenerationResponseDTO;
+import com.cts.dto.*;
 import com.cts.service.QrService;
 import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
@@ -119,5 +116,40 @@ public class QRController {
             );
         }
     }
+    @PostMapping("/validate")
+    public ResponseEntity<QRDecodeResponseDTO> validateQr(@RequestBody QRDecodeRequestDTO request) {
+        String qrText = request.getQrText();
+
+        if (qrText == null || qrText.isEmpty()) {
+            return ResponseEntity.badRequest().body(
+                    new QRDecodeResponseDTO(null, "QR Code is empty", false)
+            );
+        }
+
+        try {
+            // Call the service method that returns QRValidationResponse
+            QRValidationResponse validation = qrService.validateStudentQr(qrText);
+
+            boolean success = "SUCCESS".equals(validation.getStatus());
+
+            // Map rollNo from validation response to studentId in DTO (for testing purposes)
+            String studentIdOrRollNo = validation.getRollNo(); // Using rollNo as dummy ID
+
+            return ResponseEntity.ok(
+                    new QRDecodeResponseDTO(
+                            studentIdOrRollNo,
+                            validation.getMessage(),
+                            success
+                    )
+            );
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                    new QRDecodeResponseDTO(null, "Validation failed: " + e.getMessage(), false)
+            );
+        }
+    }
+
+
 
 }
