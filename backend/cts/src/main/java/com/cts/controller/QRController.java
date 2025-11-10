@@ -25,4 +25,29 @@ public class QRController {
         String qrPath = qrService.generateQr(request.getStudentId());
         return ResponseEntity.ok(qrPath);
     }
+
+
+    // ✅ Endpoint to decode QR (only processes QR starting with "STU/")
+    @PostMapping("/decode")
+    public ResponseEntity<String> decodeQr(@RequestBody String qrText) {
+        // 1️⃣ Null or empty check
+        if (qrText == null || qrText.isEmpty()) {
+            return ResponseEntity.badRequest().body("QR code is empty");
+        }
+
+        // 2️⃣ Only process QR codes starting with "STU/"
+        if (!qrText.startsWith("STU/")) {
+            return ResponseEntity.badRequest().body("Invalid QR code prefix");
+        }
+
+        try {
+            // 3️⃣ Remove prefix and decrypt
+            String encryptedPart = qrText.substring(4); // Remove "STU/"
+            String studentId = qrService.decryptStudentId(encryptedPart);
+
+            return ResponseEntity.ok(studentId);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to decode QR: " + e.getMessage());
+        }
+    }
 }

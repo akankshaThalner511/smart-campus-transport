@@ -22,11 +22,17 @@ public class QrService {
             String encrypted = EncryptionUtil.encrypt(studentId);
             log.info("Encrypted studentId: {}", encrypted);
 
-            // Generate QR and return path
-            return QrUtil.generateQrCode("STU" + encrypted, studentId);
+            // ✅ Correct QR Data Format: STU/<encrypted>
+            return QrUtil.generateQrCode("STU/" + encrypted, studentId);
+
         } catch (Exception e) {
             log.error("Failed to generate QR", e);
             throw new IOException("QR generation failed: " + e.getMessage());
         }
+    }
+
+    // ✅ Decrypt the encrypted part to retrieve Student ID
+    public String decryptStudentId(String encryptedText) throws Exception {
+        return EncryptionUtil.decrypt(encryptedText);
     }
 }
