@@ -149,6 +149,27 @@ public class QRController {
             );
         }
     }
+    @PostMapping("/validate-student")
+    public ResponseEntity<QRStudentValidationResponseDTO> validateStudentQR(
+            @RequestBody QRDecodeRequestDTO request) {
+
+        if (request.getQrText() == null || request.getQrText().isEmpty()) {
+            return ResponseEntity.badRequest().body(
+                    QRStudentValidationResponseDTO.builder()
+                            .status("FAILED")
+                            .message("QR Code is empty")
+                            .build()
+            );
+        }
+
+        QRStudentValidationResponseDTO response = qrService.validateStudentByQR(request);
+
+        /*if ("FAILED".equals(response.getStatus())) {
+            return ResponseEntity.badRequest().body(response);
+        }*/
+
+        return ResponseEntity.ok(response);
+    }
 
 
 
