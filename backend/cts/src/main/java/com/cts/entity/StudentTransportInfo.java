@@ -98,5 +98,35 @@ public class StudentTransportInfo extends BaseAuditEntity {
                 .status(StudentStatus.ACTIVE)
                 .build()
         );
+
+
+        DUMMY_DATA.put("7Likhitha", StudentTransportInfo.builder()
+                .studentId(UUID.randomUUID())
+                .rollNo("7Likhitha")
+                .fullName("7Likhitha Vallura") // ✅ Added name
+                .department("IT")
+                .feeStatus(FeeStatus.PAID)
+                .transportValidation(TransportValidation.ALLOWED)
+                .profileImageUrl("https://img.freepik.com/premium-photo/young-smiling-student-eyeglasses-denim-jacket-standing-with-paper-folders_176532-10688.jpg")
+                .qrCodeUrl("/qr/7Likhitha.png")
+                .status(StudentStatus.ACTIVE)
+                .build()
+        );
+
+        DUMMY_DATA.put("15Manasa", StudentTransportInfo.builder()
+                .studentId(UUID.randomUUID())
+                .rollNo("15Manasa")
+                .fullName("15Manasa Sharma") // ✅ Added name
+                .department("IT")
+                .feeStatus(FeeStatus.PAID)
+                .transportValidation(TransportValidation.ALLOWED)
+                .profileImageUrl("https://img.freepik.com/premium-photo/young-smiling-student-eyeglasses-denim-jacket-standing-with-paper-folders_176532-10688.jpg")
+                .qrCodeUrl("/qr/15Manasa.png")
+                .status(StudentStatus.ACTIVE)
+                .build()
+        );
+
+
+
     }
 }
